@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        background-color: green;
+      }
+    </style>
+    <title>e.2.1 - Seitenraster</title>
+</head>
+<body>
+  <select id="users">
+    <option value="jfirl">Julius</option>
+    <option value="msiber">Michel</option>
+    <option value="caeschlimann">Christian</option>
+    <option value="pwidmer">Patrick</option>
+    <option value="ebachmann">Elias</option>
+  </select>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      let options = $("option");
+      options.each((i, element) => {
+        let option = $(element);
+        if (option.val() == 'caeschlimann') {
+          option.attr('selected', 'selected')
+        }
+      }); 
+      console.log(options)
+    }); 
+  </script>
+  </body>
+</html>
