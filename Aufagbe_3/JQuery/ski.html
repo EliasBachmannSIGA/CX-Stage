@@ -15,7 +15,7 @@
             width: 100vw;
             height: 300px;
             margin-top: 50px;
-            background: linear-gradient(to top, #ffffff, #cce7ff);
+            background: linear-gradient(to top, #ffffff, #cbe7ff);
         }
         .skifahrer {
             position: absolute;
@@ -33,26 +33,38 @@
 </div>
 
 <script>
-    function skiFahren() {
+      function skiFahren() {
         $(".skifahrer")
           .css({ left: "-50px", top: "120px" });
-          
-        
     }
     
     function skiAdd() {
-      // kleiner tipp: du musst den (neuen) skifahrer anders positionieren als den bestehenden... 
-    }
-    
-    function skiRemove() {
-    
-    }
-    
-    function skiMove() {
       
     }
 
-    $(document).ready(skiFahren);
+    function skiRemove() {
+      
+    }
+    
+    function skiMove() {
+    $(".skifahrer").each(function() {
+        var currentLeft = parseInt($(this).css('left'));
+        var pisteWidth = $('#piste').width();
+        
+
+        if (currentLeft >= pisteWidth) {
+            $(this).css({ left: "-50px" }); 
+          } else {
+            $(this).css({ left: currentLeft + 5 + "px" });
+        }
+    });
+}
+
+
+    $(document).ready(function() {
+        skiFahren();
+        setInterval(skiMove, 50);
+    });
 </script>
 
 </body>
