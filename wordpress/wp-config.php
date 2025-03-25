@@ -56,6 +56,8 @@ define( 'AUTH_SALT',        '#FgXq^>-G=9vywBl~+I`o+CPZ]vL9;GvaYU5z(`28)o`:W.4<uk
 define( 'SECURE_AUTH_SALT', '<>Lx3Set+pj2O;.t~B1`}uPG`C{7&5MENa^+*z.?Svqn$vg6t&l(bvV&2n7~Uc+:' );
 define( 'LOGGED_IN_SALT',   '$Oq->;_Wa678aoi0V)@iCukR,qE ,n0?^sd3)p.akT6Kq1cTW.Pi[!7eLh~p?q<f' );
 define( 'NONCE_SALT',       'OGKOWcjYMT<l68$FpwbCaeRD}/m)qIGjN9L-JeyVwgY?|}=g~CvN|M))i1<z2@n6' );
+define('WP_HOME','https://elias.trainee-dev.cc/CX/wordpress');
+define('WP_SITEURL','https://elias.trainee-dev.cc/CX/wordpress');
 
 /**#@-*/
 
