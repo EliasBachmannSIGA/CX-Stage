@@ -45,15 +45,19 @@ Knuckle Huck hat aber auch nochmals Unterkategorien:
 
 #### Men's Ski: Highlights
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/B2V54HgB_2c" 
+<iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/B2V54HgB_2c?autoplay=1" 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>
 </iframe>
 
+[Schau das Video auf Youtube](https://www.youtube.com/embed/B2V54HgB_2c)
+ 
 #### Men's Snowboard: Highlights
 
 <iframe width="560" height="315" src="https://youtu.be/jC4lMbmMcZE" frameborder="0" allowfullscreen></iframe>
+
 
 #### Womans's Ski: Full Competition
 
