@@ -1,5 +1,5 @@
 ---
-title: Knuckle-Huck
+title: SuperPipe
 body_classes: title-center title-h1h2
 ---
 
@@ -41,15 +41,15 @@ Knuckle Huck hat aber auch nochmals Unterkategorien:
 
 * Frauen - Snowboard
 
-### Highlights - Aspen 2025
+### Ganze Runs
 
-#### Men's Ski: Highlights
+#### Men's Ski: Full Competition
 
-<iframe width="560" height="315" src="https://youtu.be/nDWEYjQRGGs" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://youtu.be/B2V54HgB_2c" frameborder="0" allowfullscreen></iframe>
 
-#### Men's Snowboard: Highlights
+#### Men's Snowboard: Full Competition
 
-<iframe width="560" height="315" src="https://youtu.be/jC4lMbmMcZE" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://youtu.be/9dSKe6M3BNM" frameborder="0" allowfullscreen></iframe>
 
 #### Womans's Ski: Full Competition
 
