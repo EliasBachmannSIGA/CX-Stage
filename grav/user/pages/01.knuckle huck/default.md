@@ -45,7 +45,11 @@ Knuckle Huck hat aber auch nochmals Unterkategorien:
 
 #### Men's Ski: Highlights
 
-<iframe width="560" height="315" src="https://youtu.be/nDWEYjQRGGs" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/B2V54HgB_2c" 
+        title="YouTube video player" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
 
 #### Men's Snowboard: Highlights
 
@@ -63,4 +67,10 @@ Knuckle Huck hat aber auch nochmals Unterkategorien:
 
 Knuckle Huck ist ein Fan-Favorit bei den X Games, weil es sich von klassischen Wettbewerben abhebt und mehr Kreativität ermöglicht. Statt über eine große Schanze zu springen, nutzen die Athleten die Kante des Hügels, um unkonventionelle Tricks zu zeigen. Dabei stehen nicht die technisch schwierigsten Manöver im Vordergrund, sondern flüssige und stylische Bewegungen. Die entspannte Atmosphäre und die individuellen Trick-Variationen machen den Wettbewerb besonders spannend. Da jede Fahrt anders aussieht, gibt es immer wieder überraschende und innovative Moves. Zudem ist Knuckle Huck für Zuschauer leichter verständlich als andere Disziplinen, da es weniger um strenge Bewertungskriterien geht und mehr um Spaß und Kreativität.
 
+### Galerie
+
 ![Zeb Powell - Knuckle Huck 2025](/grav/user/OIP%20(17).jpeg)
+<img src="https://www.powder.com/.image/t_share/MjEyMzQ4MjI3Mjg0OTAzNTUy/gettyimages-2195618299.jpg" width="100" />
+<video width="" height="320" controls autoplay>
+<source src="https://youtu.be/B2V54HgB_2c" type=""></source>
+</video>

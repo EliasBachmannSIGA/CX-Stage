@@ -45,9 +45,11 @@ Knuckle Huck hat aber auch nochmals Unterkategorien:
 
 #### Men's Ski: Full Competition
 
-<video width="" height="320" controls autoplay>
-<source src="https://youtu.be/B2V54HgB_2c" type="“></source>
-</video>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/B2V54HgB_2c" 
+        title="YouTube video player" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+</iframe>
 
 <iframe width="560" height="315" src="https://youtu.be/B2V54HgB_2c" frameborder="0" allowfullscreen></iframe>
 
@@ -71,3 +73,6 @@ Knuckle Huck ist ein Fan-Favorit bei den X Games, weil es sich von klassischen W
 
 ![Zeb Powell - Knuckle Huck 2025](/grav/user/OIP%20(17).jpeg)
 <img src="https://www.powder.com/.image/t_share/MjEyMzQ4MjI3Mjg0OTAzNTUy/gettyimages-2195618299.jpg" width="100" />
+<video width="" height="320" controls autoplay>
+<source src="https://youtu.be/B2V54HgB_2c" type=""></source>
+</video>
