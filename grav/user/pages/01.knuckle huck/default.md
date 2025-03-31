@@ -79,5 +79,5 @@ Knuckle Huck ist ein Fan-Favorit bei den X Games, weil es sich von klassischen W
 <img src="https://www.powder.com/.image/t_share/MjEyMzQ4MjI3Mjg0OTAzNTUy/gettyimages-2195618299.jpg" width="475" />
 
 <video height="320" controls autoplay>
-<source src="https://youtu.be/B2V54HgB_2c" type=""></source>
+<source src="https://youtu.be/B2V54HgB_2c" type="video">
 </video>
