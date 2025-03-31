@@ -1,6 +1,7 @@
 ---
 title: Knuckle-Huck
 body_classes: title-center title-h1h2
+language: de
 ---
 
 # X Games - Knuckle Huck Aspen 2025
@@ -50,8 +51,7 @@ Knuckle Huck hat aber auch nochmals Unterkategorien:
         title="YouTube video player" 
         style="border: none;" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen>
-</iframe>
+        allowfullscreen></iframe>
 
 [Schau das Video auf Youtube](https://www.youtube.com/embed/B2V54HgB_2c)
  
@@ -76,7 +76,7 @@ Knuckle Huck ist ein Fan-Favorit bei den X Games, weil es sich von klassischen W
 
 ![Zeb Powell - Knuckle Huck 2025](../../../images/OIP%20(17).jpeg)
 
-<img src="https://www.powder.com/.image/t_share/MjEyMzQ4MjI3Mjg0OTAzNTUy/gettyimages-2195618299.jpg" width="475" />
+<img src="https://www.powder.com/.image/t_share/MjEyMzQ4MjI3Mjg0OTAzNTUy/gettyimages-2195618299.jpg" width="475" alt="Alex Hall - Gold Run" />
 
 <video height="320" controls autoplay>
 <source src="https://youtu.be/B2V54HgB_2c" type="video">
