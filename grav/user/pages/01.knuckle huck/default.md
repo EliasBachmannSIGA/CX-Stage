@@ -74,7 +74,7 @@ Knuckle Huck ist ein Fan-Favorit bei den X Games, weil es sich von klassischen W
 
 ## Galerie
 
-![Zeb Powell - Knuckle Huck 2025](../../../images/OIP%20(17).jpeg)
+![Zeb Powell - Knuckle Huck 2025](../../../images/OIP_(17).jpeg)
 
 <img src="https://www.powder.com/.image/t_share/MjEyMzQ4MjI3Mjg0OTAzNTUy/gettyimages-2195618299.jpg" width="475" alt="Alex Hall - Gold Run" />
 
