@@ -45,20 +45,11 @@ Knuckle Huck hat aber auch nochmals Unterkategorien:
 ## Highlights - Aspen 2025
 
 ### Men's Ski: Highlights
-
-<iframe width="560" height="315" 
-        src="https://www.youtube.com/embed/B2V54HgB_2c?autoplay=1" 
-        title="YouTube video player" 
-        style="border: none;" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen></iframe>
-
 [Schau das Video auf Youtube](https://www.youtube.com/embed/B2V54HgB_2c)
  
 ### Men's Snowboard: Highlights
 
 <iframe width="560" height="315" src="https://youtu.be/jC4lMbmMcZE" style="border: none;" allowfullscreen></iframe>
-
 
 ### Womans's Ski: Full Competition
 
@@ -78,6 +69,4 @@ Knuckle Huck ist ein Fan-Favorit bei den X Games, weil es sich von klassischen W
 
 <img src="https://www.powder.com/.image/t_share/MjEyMzQ4MjI3Mjg0OTAzNTUy/gettyimages-2195618299.jpg" width="475" alt="Alex Hall - Gold Run" />
 
-<video height="320" controls autoplay>
-<source src="https://youtu.be/B2V54HgB_2c" type="video">
-</video>
+ß
