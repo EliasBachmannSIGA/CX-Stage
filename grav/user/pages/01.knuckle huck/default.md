@@ -5,6 +5,7 @@ language: de
 ---
 
 # X Games - Knuckle Huck Aspen 2025
+# 
 
 ## Kurze Einführung
 
