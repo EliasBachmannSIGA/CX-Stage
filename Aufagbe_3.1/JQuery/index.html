@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        background-color: green;
+        transition: background-color 0.3s ease;
+      }
+    </style>
+    <title>e.2.1 - Seitenraster</title>
+</head>
+<body>
+  <button id="color-btn">Hintergrundfarbe ändern</button>
+<br>
+<br>
+<br>
+  <select id="users">
+    <option value="jfirl">Julius</option>
+    <option value="msiber">Michel</option>
+    <option value="caeschlimann">Christian</option>
+    <option value="pwidmer">Patrick</option>
+    <option value="ebachmann">Elias</option>
+  </select>ß
+<br>
+<br>
+<br>
+  <input type="text" id="input-text" placeholder="Gib etwas ein">
+  <button id="show-btn">Anzeigen</button>
+  <p id="output"></p>
+  <button id="revome-btn">Löschen</button>
+<br>
+<br>
+  <button id="append-btn">Text anhängen</button>
+  <p id="text">text</p>
+  <button id="prepend-btn">Text vorne einfügen</button>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      let options = $("option");
+      options.each((i, element) => {
+        let option = $(element);
+        if (option.val() == 'caeschlimann') {
+          option.attr('selected', 'selected')
+        }
+      });
+
+      $("#color-btn").click(function(){
+        const backgroundColor = $('body').css('background-color');
+          if (backgroundColor === 'rgb(0, 128, 0)') {
+            $("body").css("background-color", "red");
+          } 
+          else {
+            $("body").css("background-color", "green");
+          }
+        });
+
+      $("#show-btn").click(function(){
+          let text = $("#input-text").val();
+          $("#output").html("Eingegeben: " + text);
+        });
+
+        $("#remove-btn").click(function(){
+            $("#output").remove();
+        });
+        
+        $("#append-btn").click(function(){
+            $("#text").append(" 👋");
+        });
+        $("#prepend-btn").click(function(){
+            $("#text").prepend("👋 ");
+        });
+      
+        console.log(options);
+    });
+  </script>
+  </body>
+</html>
