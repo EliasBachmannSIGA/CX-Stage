@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skifahrer Spiel</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background: #cce7ff;
+            overflow: hidden;
+            text-align: center;
+        }
+        #piste {
+            position: relative;
+            width: 100vw;
+            height: 500px;
+            background: linear-gradient(to top, #ffffff, #cbe7ff);
+            overflow: hidden;
+        }
+        .skifahrer {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            font-size: 50px;
+            transform: translateX(-50%);
+        }
+        .buttons {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+        button {
+            font-size: 16px;
+            margin: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="piste">
+        <div class="skifahrer">⛷️</div>
+    </div>
+    <div class="buttons">
+        <button id="left">Links</button>
+        <button id="right">Rechts</button>
+        <button id="backflip">Backflip</button>
+        <button id="stop">Stop</button>
+    </div>
+
+    <script>
+        let speedY = 3;
+        let speedX = 0;
+        let skier = $(".skifahrer");
+        let direction = 1; // 1 = rechts, -1 = links
+        let moving = true;
+
+        function moveSkier() {
+            if (!moving) return;
+            let currentTop = parseInt(skier.css("top"));
+            let currentLeft = parseInt(skier.css("left"));
+            
+            skier.css({
+                top: currentTop + speedY + "px",
+                left: currentLeft + speedX + "px"
+            });
+            
+            if (currentTop >= $("#piste").height()) {
+                skier.css({ top: "0", left: currentLeft + "px" });
+                speedX = direction * 3;
+            }
+        }
+        let interval = setInterval(moveSkier, 20);
+
+        $("#left").click(function() {
+            speedX = -3;
+            direction = -1;
+            skier.css("transform", "translateX(-50%) scaleX(1)");
+        });
+
+        $("#right").click(function() {
+            speedX = 3;
+            direction = 1;
+            skier.css("transform", "translateX(-50%) scaleX(-1)");
+        });
+
+        $("#backflip").click(function() {
+            skier.animate({ top: "-=50px" }, 150, function() {
+                skier.css("transform", `translateX(-50%) rotateY(${direction === 1 ? 180 : 0}deg) rotate(180deg)`);
+                setTimeout(() => {
+                    skier.css("transform", `translateX(-50%) rotateY(${direction === 1 ? 180 : 0}deg) rotate(360deg)`);
+                }, 150);
+                setTimeout(() => {
+                    skier.css("transform", `translateX(-50%) scaleX(${direction * -1})`);
+                }, 300);
+            }).animate({ top: "+=50px" }, 150);
+        });
+
+        $("#stop").click(function() {
+            moving = !moving;
+        });
+    </script>
+</body>
+</html>

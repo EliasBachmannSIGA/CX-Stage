@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skifahrer Animation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>ß
+    <style>
+        body {
+            background: #cce7ff;
+            overflow: hidden;
+        }
+        #piste {
+            position: relative;
+            width: 100vw;
+            height: 300px;
+            margin-top: 50px;
+            background: linear-gradient(to top, #ffffff, #cbe7ff);
+        }
+        .skifahrer {
+            position: absolute;
+            left: -50px;
+            top: 120px;
+            font-size: 50px;
+            transform: scaleX(-1);
+        }
+    </style>
+</head>
+<body>
+
+<div id="piste">
+    <div class="skifahrer">⛷️</div>
+</div>
+
+<script>
+      function skiFahren() {
+        $(".skifahrer")
+          .css({ left: "-50px", top: "120px" });
+    }
+    
+    function skiAdd() {
+      
+    }
+    
+    function skiRemove() {
+      
+    }
+    
+    function skiMove() {
+    $(".skifahrer").each(function() {
+        var currentLeft = parseInt($(this).css('left'));
+        var pisteWidth = $('#piste').width();
+        
+
+        if (currentLeft >= pisteWidth) {
+            $(this).css({ left: "-50px" }); 
+          } else {
+            $(this).css({ left: currentLeft + 5 + "px" });
+        }
+    });
+}
+
+
+    $(document).ready(function() {
+        skiFahren();
+        setInterval(skiMove, 50);
+    });
+</script>
+
+</body>
+</html>

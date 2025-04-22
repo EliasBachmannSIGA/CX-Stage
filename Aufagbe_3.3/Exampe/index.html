@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beispielseite - Graphische Elemente</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Beispielseite - Graphische Elemente</h1>
+  </header>
+  <main class="container">
+    <!-- Lokale Bilder -->
+    <section id="lokale-bilder">
+      <h2>Lokale Bilder</h2>
+      <p>Dies ist ein lokales Bild (gespeichert in "bilder/example.jpg"):</p>
+      <img src="bilder/example.jpg" alt="Beispiel für ein lokales Bild" class="responsive">
+    </section>
+
+    <!-- Externe Bilder -->
+    <section id="externe-bilder">
+      <h2>Externe Bilder</h2>
+      <p>Dies ist ein externes Bild (direkter URL-Link, Beispiel von w3schools):</p>
+      <img src="https://www.w3schools.com/html/img_chania.jpg" alt="Beispiel für ein externes Bild" class="responsive">
+    </section>
+
+    <!-- Hintergrundbild per CSS (Banner) -->
+    <section id="hintergrundbild">
+      <h2>Hintergrundbild per CSS</h2>
+      <div class="banner">
+        <div class="banner-content">
+          <p>Dieser Bereich nutzt ein Hintergrundbild (gespeichert in "bilder/banner.png").</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SVG-Grafiken -->
+    <section id="svg-grafiken">
+      <h2>SVG-Grafiken</h2>
+      <p>Direkte Einbindung einer SVG-Grafik:</p>
+      <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+      </svg>
+      <p>SVG als Bild (gespeichert in "bilder/example.svg"):</p>
+      <img src="bilder/example.svg" alt="Beispiel SVG-Grafik" class="responsive">
+    </section>
+
+    <!-- Responsive Bilder mit <picture> -->
+    <section id="responsive-bilder">
+      <h2>Responsive Bilder mit &lt;picture&gt;</h2>
+      <picture>
+        <source media="(min-width: 800px)" srcset="bilder/example-large.jpg">
+        <source media="(min-width: 400px)" srcset="bilder/example-medium.jpg">
+        <img src="bilder/example-small.jpg" alt="Beispiel für ein responsives Bild" class="responsive">
+      </picture>
+    </section>
+
+    <!-- Videos, Frames, Canvas und Objekte -->
+    <section id="medien">
+      <h2>Videos, Frames, Canvas und Objekte</h2>
+      
+      <!-- Videos -->
+      <div id="videos">
+        <h3>Videos</h3>
+        <p>Direkt eingebundenes Video (gespeichert in "media/example.mp4"):</p>
+        <video controls class="responsive-video">
+          <source src="./media/example.mp4" type="video/mp4">
+          Ihr Browser unterstützt dieses Videoformat nicht.
+        </video>
+        <p>Video über <code>&lt;iframe&gt;</code> (YouTube, Beispiel-Link):</p>
+        <div class="responsive-iframe">
+          <iframe src="https://www.youtube.com/embed/kbP6XLKeph4" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- Frames -->
+      <div id="frames">
+        <h3>Frames</h3>
+        <p>Externe Inhalte über <code>&lt;iframe&gt;</code> einbinden (Beispiel von w3schools):</p>
+        <div class="responsive-iframe">
+          <iframe src="https://example.com" frameborder="0"></iframe>
+        </div>
+      </div>
+
+      <!-- Canvas -->
+      <div id="canvas-bereich">
+        <h3>Canvas</h3>
+        <p>Canvas-Element mit JavaScript-Zeichnung:</p>
+        <canvas id="exampleCanvas" width="400" height="300"></canvas>
+      </div>
+
+      <!-- Objekte -->
+      <div id="objekte">
+        <h3>Objekte</h3>
+        <p>Externe Inhalte (z. B. PDF) mit <code>&lt;object&gt;</code> einbinden:</p>
+        <object data="example.pdf" type="application/pdf" width="600" height="400">
+          <p>Ihr Browser unterstützt das Einbetten von PDFs nicht. Laden Sie das PDF <a href="example.pdf">hier</a> herunter.</p>
+        </object>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Beispielseite</p>
+  </footer>
+  <script>
+    // Beispiel: Zeichne ein blaues Rechteck im Canvas
+    const canvas = document.getElementById('exampleCanvas');
+    const context = canvas.getContext('2d');
+    context.fillStyle = 'blue';
+    context.fillRect(50, 50, 200, 100);
+  </script>
+</body>
+</html>
