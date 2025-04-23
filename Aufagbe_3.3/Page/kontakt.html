@@ -65,32 +65,32 @@
     const form = document.getElementById("contactForm");
   
     form.addEventListener("submit", function (e) {
-      e.preventDefault(); // Verhindert das automatische Absenden
+      e.preventDefault();
   
-      // Eingabefelder
+
       const name = document.getElementById("name");
       const email = document.getElementById("email");
       const message = document.getElementById("message");
   
-      // Fehlermeldungs-Container
+
       const nameError = document.getElementById("nameError");
       const emailError = document.getElementById("emailError");
       const messageError = document.getElementById("messageError");
-  
-      // Fehler zurücksetzen
+
+
       nameError.textContent = "";
       emailError.textContent = "";
       messageError.textContent = "";
   
       let isValid = true;
   
-      // Name prüfen
+
       if (name.value.trim() === "") {
         nameError.textContent = "Bitte gib deinen Namen ein.";
         isValid = false;
       }
   
-      // E-Mail prüfen
+
       if (email.value.trim() === "") {
         emailError.textContent = "Bitte gib deine E-Mail ein.";
         isValid = false;
@@ -99,13 +99,13 @@
         isValid = false;
       }
   
-      // Nachricht prüfen
+
       if (message.value.trim() === "") {
         messageError.textContent = "Bitte gib eine Nachricht ein.";
         isValid = false;
       }
   
-      // Wenn alles ok ist
+
       if (isValid) {
         alert("Formular erfolgreich abgesendet!");
         form.reset();
