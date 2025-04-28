@@ -3,7 +3,7 @@
         <title>FORM FOR API</title>
     </head>
     <body>
-        <form method="POST" action="/backend.php">
+        <form method="DELETE" action="/backend.php">
             <input type="text" name="prename" value="" placeholder="Vorname">
             <input type="text" name="lastname" value="" placeholder="Nachname">
             <input type="hidden" name="id" value="2">
