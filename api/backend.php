@@ -1,6 +1,5 @@
 <?php
 
-
 $method = $_SERVER['REQUEST_METHOD'];
 $addresses = json_decode(file_get_contents('data.json'));
 
