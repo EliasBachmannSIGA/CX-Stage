@@ -32,6 +32,30 @@
       .count-error {
         color: red; 
       }
+
+      #progressBar {
+        position: fixed;
+        top: 0; left: 0;
+        height: 4px;
+        background-color: #007bff;
+        width: 0;
+        transition: width 0.1s;
+      } 
+
+      :root {
+        --primary: #007bff;
+      }
+      .btn {
+        background-color: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+      }
+
+      h2 {
+        color: var(--primary) !important;
+      }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>e.2.1 - Seitenraster</title>
@@ -48,6 +72,7 @@
       <li class="nav-item"><a href="kontakt.html#contact" class="nav-link active" aria-current="page">Kontakt</a></li>
     </ul>
   </header>
+  <div id="progressBar"></div>
   <div class="container mt-5">
     <h2>Kontaktformular</h2>
     <form id="contactForm" novalidate>
@@ -56,7 +81,7 @@
         <input type="text" class="form-control" id="name" required>
         <div class="error-message d-none" id="nameError"></div>
       </div>
-  
+
       <div class="mb-3">
         <label for="email" class="form-label">E-Mail *</label>
         <input type="email" class="form-control" id="email" required>
@@ -72,8 +97,48 @@
       <button type="submit" class="btn btn-primary">Absenden</button>
     </form>
   </div>
+
+  <div class="container mt-5">
+    <button class="btn btn-primary" onclick="showToast()">Toast anzeigen</button>
+  </div>
+
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="myToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          ✅ Das ist ein erfolgreicher Toast!
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
   
+  <div class="container mt-5">
+    <h2 for="primaryColor" class="mb-4">Primärfarbe:</h2>
+    <input type="color" id="primaryColor" value="#007bff">
+  </div>
+
   <script>
+    //----- Color Picker -----
+
+    const picker = document.getElementById('primaryColor');
+    const root   = document.documentElement;
+
+    const savedColor = localStorage.getItem('primaryColor');
+    if (savedColor) {
+      picker.value = savedColor;
+      root.style.setProperty('--primary', savedColor);
+    }
+
+    picker.addEventListener('input', () => {
+      const clr = picker.value;
+      root.style.setProperty('--primary', clr);
+      localStorage.setItem('primaryColor', clr);
+      console.log(picker.value)
+    });
+
+    //----- Kontakt Formular -----
+
     const form = document.getElementById("contactForm");
   
     form.addEventListener("submit", function (e) {
@@ -99,24 +164,32 @@
 
       if (name.value.trim() === "") {
         nameError.textContent = "Bitte gib deinen Namen ein.";
+        nameError.classList.remove("d-none");
         isValid = false;
+      } else {
+        nameError.classList.add("d-none");
       }
-  
 
       if (email.value.trim() === "") {
         emailError.textContent = "Bitte gib deine E-Mail ein.";
+        emailError.classList.remove("d-none");
         isValid = false;
       } else if (!email.value.includes("@")) {
         emailError.textContent = "Bitte gib eine gültige E-Mail-Adresse ein.";
+        emailError.classList.remove("d-none");
         isValid = false;
+      } else {
+        emailError.classList.add("d-none");
       }
-  
 
       if (message.value.trim() === "") {
         messageError.textContent = "Bitte gib eine Nachricht ein.";
+        messageError.classList.remove("d-none");
         isValid = false;
+      } else {
+        messageError.classList.add("d-none");
       }
-  
+
 
       if (isValid) {
         alert("Formular erfolgreich abgesendet!");
@@ -150,6 +223,21 @@
 
     //----- AUFGABE 3 -----
 
+    function showToast() {
+      const toastEl = document.getElementById('myToast');
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    }
+
+    //----- Scrollbar -----
+
+    const bar       = document.getElementById('progressBar');
+    const docHeight = () => document.documentElement.scrollHeight - window.innerHeight;
+
+    window.addEventListener('scroll', () => {
+      const pct = (window.scrollY / docHeight()) * 100;
+      bar.style.width = `${Math.min(Math.max(pct, 0), 100)}%`;
+    });
 
 
   </script>
