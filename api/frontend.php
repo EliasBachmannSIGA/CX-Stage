@@ -18,59 +18,62 @@
 
     <pre id="output"></pre>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $("#apiForm").on("submit", function(e) {
+        const output = document.getElementById("output");
+
+        document.getElementById("apiForm").addEventListener("submit", function(e) {
             e.preventDefault();
             const data = {
-                prename: $("#prename").val(),
-                lastname: $("#lastname").val(),
-                id: $("#id").val()
+                prename: document.getElementById("prename").value,
+                lastname: document.getElementById("lastname").value,
+                id: document.getElementById("id").value
             };
 
-            $.post("backend.php", data, function(response) {
-                $(".result").html(JSON.stringify(response, null, 2));
-                console.log(response);
-            }, "json");
+            fetch("backend.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(data)
+            })
+            .then(res => res.json())
+            .then(res => output.textContent = JSON.stringify(res, null, 2))
+            .catch(err => console.error("Fehler:", err));
         });
 
         function getData() {
-            $.get("backend.php", function(data) {
-                $(".result").html(JSON.stringify(data, null, 2));
-                console.log(data);
-            }, "json");
+            fetch("backend.php")
+                .then(res => res.json())
+                .then(res => output.textContent = JSON.stringify(res, null, 2))
+                .catch(err => console.error("Fehler:", err));
         }
 
         function updateData() {
             const data = {
-                prename: $("#prename").val(),
-                lastname: $("#lastname").val(),
-                id: $("#id").val()
+                prename: document.getElementById("prename").value,
+                lastname: document.getElementById("lastname").value,
+                id: document.getElementById("id").value
             };
 
-            $.ajax({
-                type: "PUT",
-                url: "backend.php",
-                data: data,
-                success: function(response) {
-                    $(".result").html(JSON.stringify(response, null, 2));
-                    console.log(response);
-                }
-            });
+            fetch("backend.php", {
+                method: "PUT",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(data)
+            })
+            .then(res => res.json())
+            .then(res => output.textContent = JSON.stringify(res, null, 2))
+            .catch(err => console.error("Fehler:", err));
         }
 
         function deleteData() {
-            const data = { id: $("#id").val() };
+            const data = { id: document.getElementById("id").value };
 
-            $.ajax({
-                type: "DELETE",
-                url: "backend.php",
-                data: data,
-                success: function(response) {
-                    $(".result").html("Gelöscht: " + JSON.stringify(response));
-                    console.log(response);
-                }
-            });
+            fetch("backend.php", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams(data)
+            })
+            .then(res => res.json())
+            .then(res => output.textContent = `Gelöscht: ${JSON.stringify(res)}`)
+            .catch(err => console.error("Fehler:", err));
         }
     </script>
 </body>

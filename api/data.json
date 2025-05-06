@@ -1,1 +1,12 @@
-[{"id":1,"prename":"elias","lastname":"bachmann"},{"id":2,"prename":"asdfasdf","lastname":"asdfasdf"}]
+[
+    {
+        "prename": "Elias",
+        "lastname": "Bachmann",
+        "id": "1"
+    },
+    {
+        "prename": "Julius",
+        "lastname": "Firl",
+        "id": "2"
+    }
+]
