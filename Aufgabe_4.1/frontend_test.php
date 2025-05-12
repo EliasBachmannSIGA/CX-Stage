@@ -1,80 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>FORM FOR API</title>
+    <title>DB Form</title>
 </head>
 <body>
-    <h2>Adresse eingeben</h2>
-    <form id="apiForm">
-        <input type="text" id="prename" placeholder="Vorname">
-        <input type="text" id="lastname" placeholder="Nachname">
-        <input type="number" id="id" placeholder="ID">
-        <button type="submit">Speichern</button> <!-- POST -->
-    </form>
 
-    <button onclick="getData()">Daten anzeigen</button> <!-- GET -->
-    <button onclick="updateData()">Daten ändern</button> <!-- PUT -->
-    <button onclick="deleteData()">Daten löschen</button> <!-- DELETE -->
 
     <pre id="output"></pre>
 
     <script>
-        const output = document.getElementById("output");
 
-        document.getElementById("apiForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const data = {
-                prename: document.getElementById("prename").value,
-                lastname: document.getElementById("lastname").value,
-                id: document.getElementById("id").value
-            };
-
-            fetch("backend.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(data)
-            })
-            .then(res => res.json())
-            .then(res => output.textContent = JSON.stringify(res, null, 2))
-            .catch(err => console.error("Fehler:", err));
-        });
-
-        function getData() {
-            fetch("backend.php")
-                .then(res => res.json())
-                .then(res => output.textContent = JSON.stringify(res, null, 2))
-                .catch(err => console.error("Fehler:", err));
-        }
-
-        function updateData() {
-            const data = {
-                prename: document.getElementById("prename").value,
-                lastname: document.getElementById("lastname").value,
-                id: document.getElementById("id").value
-            };
-
-            fetch("backend.php", {
-                method: "PUT",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(data)
-            })
-            .then(res => res.json())
-            .then(res => output.textContent = JSON.stringify(res, null, 2))
-            .catch(err => console.error("Fehler:", err));
-        }
-
-        function deleteData() {
-            const data = { id: document.getElementById("id").value };
-
-            fetch("backend.php", {
-                method: "DELETE",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(data)
-            })
-            .then(res => res.json())
-            .then(res => output.textContent = `Gelöscht: ${JSON.stringify(res)}`)
-            .catch(err => console.error("Fehler:", err));
-        }
     </script>
+    <?php
+        // Datenbankverbindungsparameter
+        $servername = "localhost:8888"; 
+        $username = "elias.bachmann@siga.swiss";
+        $password = "NiMaBe!!6103";
+        $dbname = "Skiturnier";
+
+        // Verbindung herstellen
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Verbindung überprüfen
+        if ($conn->connect_error) {
+            die("Verbindung fehlgeschlagen: " . $conn->connect_error);
+        }
+
+        // Beispielabfrage
+        $sql = "SELECT * FROM Teilnehmer";
+        $result = $conn->query($sql);
+
+        // Ergebnisse verarbeiten
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "ID: " . $row["Teilnehmer_ID"] . " - Name: " . $row["Vorname"] . " " . $row["Nachname"] . "<br>";
+            }
+        } else {
+            echo "0 Ergebnisse";
+        }
+
+        // Verbindung schließen
+        $conn->close();
+    ?>
 </body>
 </html>
