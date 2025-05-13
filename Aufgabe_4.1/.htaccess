@@ -1,11 +1,4 @@
-DirectoryIndex index.php 
 RewriteEngine On
-
-# Wenn Datei oder Verzeichnis nicht existiert...
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-# ... leite alles an index.php weiter
-RewriteRule ^(.*)$ index.php [L]
-RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
-RewriteRule ^(.*) - [E=BASE:%1]
+RewriteRule ^(.*)$ index.php [QSA,L]

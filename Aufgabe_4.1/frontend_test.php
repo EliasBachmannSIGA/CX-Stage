@@ -159,44 +159,44 @@
         }
         break;
         case 'PUT':
-            case 'PATCH':
-                if ($resource == 'teilnehmer' && $id) {
-                    // Teilnehmer aktualisieren
-                    $data = json_decode(file_get_contents('php://input'), true);
-                    $sql = "UPDATE Teilnehmer SET Vorname = ?, Nachname = ?, Team_ID = ?, Email = ?, Telefonnummer = ?, Adresse_ID = ?
-                            WHERE Teilnehmer_ID = ?";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("ssissii", 
-                        $data['Vorname'], 
-                        $data['Nachname'], 
-                        $data['Team_ID'], 
-                        $data['Email'], 
-                        $data['Telefonnummer'], 
-                        $data['Adresse_ID'],
-                        $id
-                    );
-                    if ($stmt->execute()) {
-                        echo json_encode(['message' => 'Teilnehmer aktualisiert']);
-                    } else {
-                        echo json_encode(['error' => 'Fehler beim Aktualisieren: ' . $stmt->error]);
-                    }
+        case 'PATCH':
+            if ($resource == 'teilnehmer' && $id) {
+                // Teilnehmer aktualisieren
+                $data = json_decode(file_get_contents('php://input'), true);
+                $sql = "UPDATE Teilnehmer SET Vorname = ?, Nachname = ?, Team_ID = ?, Email = ?, Telefonnummer = ?, Adresse_ID = ?
+                        WHERE Teilnehmer_ID = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ssissii", 
+                    $data['Vorname'], 
+                    $data['Nachname'], 
+                    $data['Team_ID'], 
+                    $data['Email'], 
+                    $data['Telefonnummer'], 
+                    $data['Adresse_ID'],
+                    $id
+                );
+                if ($stmt->execute()) {
+                    echo json_encode(['message' => 'Teilnehmer aktualisiert']);
+                } else {
+                    echo json_encode(['error' => 'Fehler beim Aktualisieren: ' . $stmt->error]);
                 }
-                break;
-        
-            case 'DELETE':
-                if ($resource == 'teilnehmer' && $id) {
-                    // Teilnehmer löschen
-                    $sql = "DELETE FROM Teilnehmer WHERE Teilnehmer_ID = ?";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("i", $id);
-                    if ($stmt->execute()) {
-                        echo json_encode(['message' => 'Teilnehmer gelöscht']);
-                    } else {
-                        echo json_encode(['error' => 'Fehler beim Löschen: ' . $stmt->error]);
-                    }
+            }
+            break;
+    
+        case 'DELETE':
+            if ($resource == 'teilnehmer' && $id) {
+                // Teilnehmer löschen
+                $sql = "DELETE FROM Teilnehmer WHERE Teilnehmer_ID = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $id);
+                if ($stmt->execute()) {
+                    echo json_encode(['message' => 'Teilnehmer gelöscht']);
+                } else {
+                    echo json_encode(['error' => 'Fehler beim Löschen: ' . $stmt->error]);
                 }
-                break;        
-}
+            }
+            break;        
+    }
 
     // Verbindung schließen
     $conn->close();
