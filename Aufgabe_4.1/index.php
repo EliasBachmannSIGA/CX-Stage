@@ -1,188 +1,140 @@
-index <?php
-phpinfo();
-/*
-if (isset($_GET['resource'])) {
-    // JSON-Header & CORS
-    header('Content-Type: application/json; charset=UTF-8');
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type');
+<?php
+$parsedUrl = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$table     = basename($parsedUrl);
 
-    // Preflight sofort beenden
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        exit;
+$host  = 'localhost';
+$db    = 'Skiturnier';
+$user  = 'Elias';
+$pass  = 'NiMaBe!!6103';
+
+$allowedTables = [
+  'Adresse','Team','Teilnehmer','Teilnehmer_Wertung',
+  'Turnier','Turnier_Teilnehmer','Turnier_Zuschauer',
+  'Turnier_Wertung','Wertung','Zuschauer'
+];
+
+if (!in_array($table, $allowedTables)) {
+  http_response_code(404);
+  echo 'Tabelle nicht gefunden';
+  exit;
+}
+
+try {
+  $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+  http_response_code(500);
+  echo 'DB-Verbindung fehlgeschlagen: ' . $e->getMessage();
+  exit;
+}
+
+switch ($_SERVER['REQUEST_METHOD']) {
+  case 'GET':
+    $stmt = $pdo->query("SELECT * FROM `$table`");
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($rows, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+    break;
+
+  case 'POST':
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (!is_array($input) || empty($input)) {
+      http_response_code(400);
+      header('Content-Type: application/json; charset=utf-8');
+      echo json_encode(['error'=>'Ungültiges oder leeres JSON-Objekt.']);
+      exit;
     }
 
-    // PHP-Fehler nicht in HTML, sondern nur intern
-    ini_set('display_errors', 0);
-    ini_set('display_startup_errors', 0);
-    ini_set('html_errors', 0);
-    error_reporting(E_ALL);
+    $cols    = array_keys($input);
+    $ph      = array_map(fn($c)=>":$c", $cols);
+    $colList = implode(', ', array_map(fn($c)=>"`$c`", $cols));
+    $phList  = implode(', ', $ph);
 
-    // Routing-Variablen
-    $method   = $_SERVER['REQUEST_METHOD'];
-    $resource = $_GET['resource'];
-    $id       = isset($_GET['id']) ? (int)$_GET['id'] : null;
+    $sql  = "INSERT INTO `$table` ($colList) VALUES ($phList)";
+    $stmt = $pdo->prepare($sql);
 
-    // DB-Verbindung
-    $servername = "localhost";
-    $username   = "Elias";
-    $password   = "NiMaBe!!6103";
-    $dbname     = "Skiturnier";
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        http_response_code(500);
-        echo json_encode(['error' => 'DB-Verbindung fehlgeschlagen: ' . $conn->connect_error]);
-        exit;
+    foreach ($input as $col => $val) {
+      if (ctype_digit(strval($val))) {
+        $stmt->bindValue(":$col", (int)$val, PDO::PARAM_INT);
+      } else {
+        $stmt->bindValue(":$col", $val, PDO::PARAM_STR);
+      }
     }
 
-    if ($resource === 'teilnehmer') {
-        switch ($method) {
-            case 'GET':
-                $sql = "SELECT Teilnehmer_ID, Vorname, Nachname, Team_ID, Email, Telefonnr AS Telefonnummer
-                        FROM Teilnehmer";
-                $res = $conn->query($sql);
-                if (!$res) {
-                    http_response_code(500);
-                    echo json_encode(['error' => 'DB-Query fehlgeschlagen: ' . $conn->error]);
-                    exit;
-                }
-                $arr = [];
-                while ($row = $res->fetch_assoc()) {
-                    $arr[] = $row;
-                }
-                echo json_encode($arr);
-                exit;
+    try {
+      $stmt->execute();
+      $id = $pdo->lastInsertId();
 
-            case 'POST':
-                $data = json_decode(file_get_contents('php://input'), true);
-                $sql  = "INSERT INTO Teilnehmer (Vorname, Nachname, Team_ID, Email, Telefonnr, Adresse_ID)
-                         VALUES (?, ?, ?, ?, ?, ?)";
-                $stmt = $conn->prepare($sql);
-                if (!$stmt) {
-                    http_response_code(500);
-                    echo json_encode(['error' => 'Prepare fehlgeschlagen: ' . $conn->error]);
-                    exit;
-                }
-                $stmt->bind_param("ssissi",
-                    $data['Vorname'],
-                    $data['Nachname'],
-                    $data['Team_ID'],
-                    $data['Email'],
-                    $data['Telefonnummer'],
-                    $data['Adresse_ID']
-                );
-                if ($stmt->execute()) {
-                    echo json_encode(['message' => 'Teilnehmer erstellt', 'id' => $conn->insert_id]);
-                } else {
-                    http_response_code(500);
-                    echo json_encode(['error' => 'Fehler beim Erstellen: ' . $stmt->error]);
-                }
-                exit;
-
-            case 'PUT':
-            case 'PATCH':
-                if (!$id) {
-                    http_response_code(400);
-                    echo json_encode(['error' => 'ID fehlt']);
-                    exit;
-                }
-                $data = json_decode(file_get_contents('php://input'), true);
-                $sql  = "UPDATE Teilnehmer
-                         SET Vorname = ?, Nachname = ?, Team_ID = ?, Email = ?, Telefonnr = ?, Adresse_ID = ?
-                         WHERE Teilnehmer_ID = ?";
-                $stmt = $conn->prepare($sql);
-                if (!$stmt) {
-                    http_response_code(500);
-                    echo json_encode(['error' => 'Prepare fehlgeschlagen: ' . $conn->error]);
-                    exit;
-                }
-                $stmt->bind_param("ssissii",
-                    $data['Vorname'],
-                    $data['Nachname'],
-                    $data['Team_ID'],
-                    $data['Email'],
-                    $data['Telefonnummer'],
-                    $data['Adresse_ID'],
-                    $id
-                );
-                if ($stmt->execute()) {
-                    echo json_encode(['message' => 'Teilnehmer aktualisiert']);
-                } else {
-                    http_response_code(500);
-                    echo json_encode(['error' => 'Fehler beim Aktualisieren: ' . $stmt->error]);
-                }
-                exit;
-
-            case 'DELETE':
-                if (!$id) {
-                    http_response_code(400);
-                    echo json_encode(['error' => 'ID fehlt']);
-                    exit;
-                }
-                $sql  = "DELETE FROM Teilnehmer WHERE Teilnehmer_ID = ?";
-                $stmt = $conn->prepare($sql);
-                if (!$stmt) {
-                    http_response_code(500);
-                    echo json_encode(['error' => 'Prepare fehlgeschlagen: ' . $conn->error]);
-                    exit;
-                }
-                $stmt->bind_param("i", $id);
-                if ($stmt->execute()) {
-                    echo json_encode(['message' => 'Teilnehmer gelöscht']);
-                } else {
-                    http_response_code(500);
-                    echo json_encode(['error' => 'Fehler beim Löschen: ' . $stmt->error]);
-                }
-                exit;
+      http_response_code(201);
+      header('Content-Type: application/json; charset=utf-8');
+      echo json_encode(['success'=>true,'insert_id'=>$id,'table'=>$table], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+    } catch (PDOException $e) {
+      http_response_code(500);
+      header('Content-Type: application/json; charset=utf-8');
+      echo json_encode(['error'=>'Einfügen fehlgeschlagen','message'=>$e->getMessage()], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+    }
+    break;
+    case 'PUT':
+    case 'PATCH': 
+        $input = json_decode(file_get_contents('php://input'), true);
+        if (!is_array($input) || empty($input)) {
+          http_response_code(400);
+          header('Content-Type: application/json; charset=utf-8');
+          echo json_encode(['error'=>'Ungültiges oder leeres JSON-Objekt.']);
+          exit;
         }
-    }
-
-    // wenn wir hier landen, gab's keine passende Ressource
-    http_response_code(404);
-    echo json_encode(['error' => 'Ressource nicht gefunden']);
-    exit;
+    
+        $idColumn = $table . '_ID';
+        if (!isset($input[$idColumn]) || !ctype_digit(strval($input[$idColumn]))) {
+          http_response_code(400);
+          header('Content-Type: application/json; charset=utf-8');
+          echo json_encode(['error'=>"Fehlende oder ungültige $idColumn."]);
+          exit;
+        }
+        $idValue = (int)$input[$idColumn];
+        unset($input[$idColumn]);
+        
+        $cols     = array_keys($input);
+        $setParts = array_map(fn($c)=> "`$c` = :$c", $cols);
+        $setList  = implode(', ', $setParts);
+    
+        $sql  = "UPDATE `$table` SET $setList WHERE `$idColumn` = :id";
+        $stmt = $pdo->prepare($sql);
+    
+        foreach ($input as $col => $val) {
+          if (ctype_digit(strval($val))) {
+            $stmt->bindValue(":$col", (int)$val, PDO::PARAM_INT);
+          } else {
+            $stmt->bindValue(":$col", $val, PDO::PARAM_STR);
+          }
+        }
+        $stmt->bindValue(':id', $idValue, PDO::PARAM_INT);
+    
+        try {
+          $stmt->execute();
+          http_response_code(200);
+          header('Content-Type: application/json; charset=utf-8');
+          echo json_encode([
+            'success'   => true,
+            'updated_id'=> $idValue,
+            'table'     => $table
+          ], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+        } catch (PDOException $e) {
+          http_response_code(500);
+          header('Content-Type: application/json; charset=utf-8');
+          echo json_encode([
+            'error'   => 'Update fehlgeschlagen',
+            'message' => $e->getMessage()
+          ], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+        }
+    break;
+    
+    //DELETE
+    default:
+    http_response_code(405);
+    header('Allow: GET, POST, PUT');
+    echo 'Method Not Allowed. Nur  sind erlaubt.';
+    break;
 }
 ?>
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <title>Teilnehmer anzeigen</title>
-  <style>
-    body { font-family: sans-serif; padding: 1em; }
-    button { padding: .5em 1em; font-size: 1em; }
-    pre { background: #f4f4f4; padding: 1em; margin-top: 1em; }
-  </style>
-</head>
-<body>
-
-  <button id="showPartie">Alle Teilnehmer anzeigen</button>
-  <pre id="output"></pre>
-
-  <script>
-    document
-      .getElementById('showPartie')
-      .addEventListener('click', async () => {
-        const out = document.getElementById('output');
-        out.textContent = 'Lade…';
-        try {
-          const res = await fetch('index.php?resource=teilnehmer');
-          if (!res.ok) throw new Error(`Server-Fehler: ${res.status}`);
-          const teilnehmer = await res.json();
-          if (teilnehmer.length === 0) {
-            out.textContent = 'Keine Teilnehmer gefunden.';
-            return;
-          }
-          const lines = teilnehmer.map(t =>
-            `#${t.Teilnehmer_ID}: ${t.Vorname} ${t.Nachname} — Team ${t.Team_ID}, E-Mail: ${t.Email}, Tel: ${t.Telefonnummer}`
-          );
-          out.textContent = lines.join('\n');
-        } catch (err) {
-          out.textContent = 'Fehler: ' + err.message;
-        }
-      });
-  </script>
-
-</body>
-</html>
