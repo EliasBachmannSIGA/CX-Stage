@@ -1,6 +1,7 @@
 <?php
 $parsedUrl = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $table     = basename($parsedUrl);
+$table_ID = $table.'_ID';
 
 $host  = 'localhost';
 $db    = 'Skiturnier';
@@ -46,15 +47,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
       exit;
     }
 
-    $cols    = array_keys($input);
-    $ph      = array_map(fn($c)=>":$c", $cols);
-    $colList = implode(', ', array_map(fn($c)=>"`$c`", $cols));
-    $phList  = implode(', ', $ph);
+    $data = [];
+    foreach ($input as $key => $value) {
+      if ($key == $table_ID) {continue;}
+      $data[$key] = $value;
+    }
 
+    $colList = implode(', ', array_keys($data));
+    $phList = implode( ', ', array_values($data));
     $sql  = "INSERT INTO `$table` ($colList) VALUES ($phList)";
     $stmt = $pdo->prepare($sql);
 
-    foreach ($input as $col => $val) {
+    foreach ($data as $col => $val) {
       if (ctype_digit(strval($val))) {
         $stmt->bindValue(":$col", (int)$val, PDO::PARAM_INT);
       } else {
