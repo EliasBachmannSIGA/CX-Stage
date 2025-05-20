@@ -54,7 +54,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
 
     $colList = implode(', ', array_keys($data));
-    $phList = implode( ', ', array_values($data));
+    $phList = ':' . implode(', :', array_keys($data));
     $sql  = "INSERT INTO `$table` ($colList) VALUES ($phList)";
     $stmt = $pdo->prepare($sql);
 
