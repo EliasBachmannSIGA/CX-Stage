@@ -40,6 +40,33 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
   case 'POST':
     $input = json_decode(file_get_contents('php://input'), true);
+
+    // Hash (Aus Vorname, Nachname und Email)
+    if (isset($input['Vorname'], $input['Nachname'], $input['Email'])) {
+      $combined = strtolower(trim($input['Vorname'] . $input['Nachname'] . $input['Email']));
+      $hash = md5($combined);
+
+      $checkStmt = $pdo->prepare("
+        SELECT COUNT(*) FROM Teilnehmer
+        WHERE MD5(LOWER(CONCAT(Vorname, Nachname, Email))) = :hash
+      ");
+      $checkStmt->bindValue(':hash', $hash, PDO::PARAM_STR);
+      $checkStmt->execute();
+      $exists = $checkStmt->fetchColumn();
+
+      // Response ändern
+      if ($exists > 0) {
+        http_response_code(409);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+          'success' => false,
+          'message' => 'Teilnehmer existiert bereits'
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        exit;
+      }
+    }
+
+
     if (!is_array($input) || empty($input)) {
       http_response_code(400);
       header('Content-Type: application/json; charset=utf-8');
