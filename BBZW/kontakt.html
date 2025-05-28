@@ -120,7 +120,10 @@
         <div class="error-message d-none" id="messageError"></div>
       </div>
       <div class="py-4">
-        <button type="submit" class="btn btn-primary"><div class="d-flex justify-content-center">Absenden</button>
+        <button type="submit" class="btn btn-primary">
+          <div id="submitLable" class="d-flex justify-content-center">Absenden</div>
+          <div id="submitSave" class="d-flex justify-content-center d-none">...speichern</div>
+        </button>
       </div>
     </form>
 
@@ -225,10 +228,19 @@
           message: message.value
         };
 
-        databaseClient.insertInto('users', formData); 
-     
-        showToast();
-        form.reset(); 
+        document.getElementById('submitLable').classList.add('d-none');
+        document.getElementById('submitSave').classList.remove('d-none');
+        databaseClient.insertInto('users', formData)
+          .then()
+          .finally(() => {
+            setTimeout(() => { //Simulate savingtime due to Connection issues
+              document.getElementById('submitSave').classList.add('d-none');
+              document.getElementById('submitLable').classList.remove('d-none');
+              
+              showToast();
+              form.reset();
+            }, 3000);  
+          }); 
 
         // Zeichenzähler zurücksetzen
         charCount.textContent = "0 / 200";
@@ -293,9 +305,5 @@
         crossorigin="anonymous">
   </script>
   <script src="./databaseClient.js"></script>
-  <script>
-
-    
-  </script>
 </body>
 </html>
