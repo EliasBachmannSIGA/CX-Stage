@@ -120,7 +120,7 @@
         <div class="error-message d-none" id="messageError"></div>
       </div>
       <div class="py-4">
-        <button type="submit" class="btn btn-primary">
+        <button id="submitButton" type="submit" class="btn btn-primary">
           <div id="submitLable" class="d-flex justify-content-center">Absenden</div>
           <div id="submitSave" class="d-flex justify-content-center d-none">...speichern</div>
         </button>
@@ -230,12 +230,14 @@
 
         document.getElementById('submitLable').classList.add('d-none');
         document.getElementById('submitSave').classList.remove('d-none');
+        document.getElementById('submitButton').setAttribute('disabled', 'true');   // disable button
         databaseClient.insertInto('users', formData)
           .then()
           .finally(() => {
             setTimeout(() => { //Simulate savingtime due to Connection issues
               document.getElementById('submitSave').classList.add('d-none');
               document.getElementById('submitLable').classList.remove('d-none');
+              document.getElementById('submitButton').removeAttribute('disabled');        // enable button
               
               showToast();
               form.reset();
