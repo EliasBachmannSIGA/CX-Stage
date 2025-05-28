@@ -84,7 +84,6 @@
     <ul class="mx-5 nav nav-pills">
       <li class="nav-item"><a href="index.html#home" class="nav-link">Home</a></li>
       <li class="nav-item"><a href="bau.html#construction" class="nav-link">Bau</a></li>
-      <li class="nav-item"><a href="#technic" class="nav-link">Technik</a></li>
       <li class="nav-item"><a href="kontakt.html#contact" class="nav-link active" aria-current="page">Kontakt</a></li>
     </ul>
   </header>
@@ -109,7 +108,13 @@
         <input type="email" class="form-control" id="email" required>
         <div class="error-message d-none" id="emailError"></div>
       </div>
-  
+
+      <div class="mb-3">
+        <label for="telnummer" class="form-label">Telefonnummer</label>
+        <input type="tel" pattern="^\+41[0-9]{9}$" class="form-control" id="telnummer">
+        <div class="error-message d-none" id="telnummerError"></div>
+      </div>
+
       <div class="mb-3">
         <label for="message" class="form-label">Nachricht *</label>
         <textarea class="form-control" id="message" rows="5" maxlength="200" required></textarea>
@@ -144,12 +149,14 @@
       const name = document.getElementById("name");
       const lastname = document.getElementById("lastname");
       const email = document.getElementById("email");
+      const telnummer = document.getElementById("telnummer");
       const message = document.getElementById("message");
   
 
       const nameError = document.getElementById("nameError");
       const lastnameError = document.getElementById("lastnameError");
       const emailError = document.getElementById("emailError");
+      const telnummerError = document.getElementById("telnummerError");
       const messageError = document.getElementById("messageError");
 
 
