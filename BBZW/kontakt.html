@@ -42,6 +42,10 @@
         color: red; 
       }
 
+      .h2 {
+        color: #007bff;
+      }
+
       #progressBar {
         position: fixed;
         top: 0; left: 0;
@@ -49,11 +53,12 @@
         background-color: #007bff;
         width: 0;
         transition: width 0.1s;
-      } ß
+      } 
 
       :root {
         --primary: #007bff;
       }
+
       .btn {
         background-color: var(--primary);
         color: #fff;
@@ -62,9 +67,6 @@
         cursor: pointer;
       }
 
-      h2 {
-        color: var(--primary) !important;
-      }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -78,8 +80,8 @@
 <body>
   <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-      <img class ="px-4"src="./bilder/SIGA_Logo_freigestellt_Web.png" alt="" width="" height="30">     </a>
-    <ul class="nav nav-pills">
+      <img class ="px-4"src="!!!!!!!!!!!!IMG_Source!!!!!!!!!!!!!!" alt="" width="" height="30">     </a>
+    <ul class="mx-5 nav nav-pills">
       <li class="nav-item"><a href="index.html#home" class="nav-link">Home</a></li>
       <li class="nav-item"><a href="bau.html#construction" class="nav-link">Bau</a></li>
       <li class="nav-item"><a href="#technic" class="nav-link">Technik</a></li>
@@ -88,12 +90,18 @@
   </header>
   <div id="progressBar"></div>
   <div class="container mt-5">
-    <h2>Kontaktformular</h2>
+    <h2 class="my-5" style="color: #0028a0;">Kontaktformular</h2>
     <form id="contactForm" novalidate>
       <div class="mb-3">
         <label for="name" class="form-label">Name *</label>
         <input type="text" class="form-control" id="name" required>
         <div class="error-message d-none" id="nameError"></div>
+      </div>
+
+      <div class="mb-3">
+        <label for="lastname" class="form-label">Nachame *</label>
+        <input type="text" class="form-control" id="lastname" required>
+        <div class="error-message d-none" id="lastnameError"></div>
       </div>
 
       <div class="mb-3">
@@ -108,17 +116,10 @@
         <div id="charCount">0 / 200</div>
         <div class="error-message d-none" id="messageError"></div>
       </div>
-      <button type="submit" class="btn btn-primary"><div class="d-flex justify-content-center my-5">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div></button>
+      <div class="py-4">
+        <button type="submit" class="btn btn-primary"><div class="d-flex justify-content-center" onclick="showToast()">Absenden</button>
+      </div>
     </form>
-  </div>
-
-  <div class="container mt-5">
-    <button class="btn btn-primary" onclick="showToast()">Toast anzeigen</button>
-  </div>
 
   <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
     <div id="myToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -130,31 +131,8 @@
       </div>
     </div>
   </div>
-  
-  <div class="container mt-5">
-    <h2 for="primaryColor" class="mb-4">Primärfarbe:</h2>
-    <input type="color" id="primaryColor" value="#007bff">
-  </div>
 
   <script>
-    //----- Color Picker -----
-
-    const picker = document.getElementById('primaryColor');
-    const root   = document.documentElement;
-
-    const savedColor = localStorage.getItem('primaryColor');
-    if (savedColor) {
-      picker.value = savedColor;
-      root.style.setProperty('--primary', savedColor);
-    }
-
-    picker.addEventListener('input', () => {
-      const clr = picker.value;
-      root.style.setProperty('--primary', clr);
-      localStorage.setItem('primaryColor', clr);
-      console.log(picker.value)
-    });
-
     //----- Kontakt Formular -----
 
     const form = document.getElementById("contactForm");
@@ -164,11 +142,13 @@
   
 
       const name = document.getElementById("name");
+      const lastname = document.getElementById("lastname");
       const email = document.getElementById("email");
       const message = document.getElementById("message");
   
 
       const nameError = document.getElementById("nameError");
+      const lastnameError = document.getElementById("lastnameError");
       const emailError = document.getElementById("emailError");
       const messageError = document.getElementById("messageError");
 
@@ -186,6 +166,14 @@
         isValid = false;
       } else {
         nameError.classList.add("d-none");
+      }
+
+      if (lastname.value.trim() === "") {
+        lastnameError.textContent = "Bitte gib deinen Nachnamen ein.";
+        lastnameError.classList.remove("d-none");
+        isValid = false;
+      } else {
+        lastnameError.classList.add("d-none");
       }
 
       if (email.value.trim() === "") {
@@ -215,7 +203,7 @@
       }
     });
 
-    //----- AUFGABE 2 -----
+    //----- Zeichenzähler -----
 
     document.addEventListener('DOMContentLoaded', function() {
       const messageInput = document.getElementById('message');
@@ -239,7 +227,7 @@
       });
     });
 
-    //----- AUFGABE 3 -----
+    //----- Toast -----
 
     function showToast() {
       const toastEl = document.getElementById('myToast');
@@ -257,39 +245,9 @@
       bar.style.width = `${Math.min(Math.max(pct, 0), 100)}%`;
     });
 
-
   </script>
   
-  <div class="px-4 py-5 my-5 text-center">
-    <iframe width="90%" class="py-5" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1126.4153208812331!2d8.135835396401859!3d47.08033940958488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478fe6cb7955159f%3A0x7cccecffe7fff4f9!2sSIGA%20Services%20AG!5e0!3m2!1sde!2sch!4v1742294015505!5m2!1sde!2sch" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    <h1 class="display-5 fw-bold text-body-emphasis">Kontakt</h1>
-    <div class="col-lg-6 mx-auto">
-      <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <button type="button" class="btn btn-primary btn-lg px-4 gap-3" href="#contact">Kontakt</button>
-        <button type="button" class="btn btn-outline-secondary btn-lg px-4" href="bau.html#construction">^</button>
-      </div>
-    </div>
-  </div>
-  <div class="position-relative overflow-hidden rounded p-3 p-md-5 m-md-3 text-center bg-body-tertiary">
-    <div class="col-md-6 p-lg-5 mx-auto my-5">
-      <h1 class="display-3 fw-bold">Designed for engineers</h1>
-      <h3 class="fw-normal text-muted mb-3">Build anything you want with Aperture</h3>
-      <div class="d-flex gap-3 justify-content-center lead fw-normal">
-        <a class="icon-link" href="#">
-          Learn more
-          <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
-        </a>
-        <a class="icon-link" href="#">
-          Buy
-          <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
-        </a>
-      </div>
-    </div>
-    <div class="product-device shadow-sm d-none d-md-block"></div>
-    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
-  </div>
-  <footer class="py-3 my-4">
+  <footer class="py-3">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
       <li class="nav-item"><a href="index.html#home" class="nav-link px-2 text-body-secondary">Home</a></li>
       <li class="nav-item"><a href="bau.html#construction" class="nav-link px-2 text-body-secondary">Bau</a></li>
