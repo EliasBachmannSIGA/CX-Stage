@@ -42,10 +42,6 @@
         color: red; 
       }
 
-      .h2 {
-        color: #007bff;
-      }
-
       #progressBar {
         position: fixed;
         top: 0; left: 0;
@@ -55,9 +51,6 @@
         transition: width 0.1s;
       } 
 
-      :root {
-        --primary: #007bff;
-      }
 
       .btn {
         background-color: var(--primary);
@@ -110,8 +103,13 @@
       </div>
 
       <div class="mb-3">
-        <label for="telnummer" class="form-label">Telefonnummer</label>
-        <input type="tel" pattern="^\+41[0-9]{9}$" class="form-control" id="telnummer">
+        <label for="telnummer" class="form-label">Telefonnummer *</label>
+        <input type="tel"
+               class="form-control"
+               id="telnummer"
+               inputmode="numeric"
+               required
+               placeholder="Nur Zahlen und Leerzeichen erlaubt">
         <div class="error-message d-none" id="telnummerError"></div>
       </div>
 
@@ -122,16 +120,16 @@
         <div class="error-message d-none" id="messageError"></div>
       </div>
       <div class="py-4">
-        <button type="submit" class="btn btn-primary"><div class="d-flex justify-content-center" onclick="showToast()">Absenden</button>
+        <button type="submit" class="btn btn-primary"><div class="d-flex justify-content-center">Absenden</button>
       </div>
     </form>
 
   <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
     <div id="myToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="d-flex">
-        <div class="toast-body">
-          Das ist ein Toast
-        </div>
+        <div class="toast-body" id="toastText">
+          Formular wurde erfolgreich gesendet!
+        </div>        
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
     </div>
@@ -141,6 +139,9 @@
     //----- Kontakt Formular -----
 
     const form = document.getElementById("contactForm");
+
+    const charCount = document.getElementById('charCount');
+    const messageInput = document.getElementById('message');
   
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -149,7 +150,7 @@
       const name = document.getElementById("name");
       const lastname = document.getElementById("lastname");
       const email = document.getElementById("email");
-      const telnummer = document.getElementById("telnummer");
+      const telInput = document.getElementById('telnummer');
       const message = document.getElementById("message");
   
 
@@ -194,6 +195,18 @@
       } else {
         emailError.classList.add("d-none");
       }
+    
+      document.getElementById('telnummer').addEventListener('input', function (e) {
+        this.value = this.value.replace(/[^0-9\s]/g, '');
+      });
+
+      if (telnummer.value.trim() === "") {
+        telnummerError.textContent = "Bitte gib deine Telefonnummer ein.";
+        telnummerError.classList.remove("d-none");
+        isValid = false;
+      } else {
+        telnummerError.classList.add("d-none");
+      } 
 
       if (message.value.trim() === "") {
         messageError.textContent = "Bitte gib eine Nachricht ein.";
@@ -203,18 +216,39 @@
         messageError.classList.add("d-none");
       }
 
-
       if (isValid) {
-        alert("Formular erfolgreich abgesendet!");
-        form.reset();
+        const formData = {
+          name: name.value, 
+          lastname: lastname.value,
+          email: email.value,
+          telnummer: telInput.value,
+          message: message.value
+        };
+
+        databaseClient.insertInto('users', formData); 
+     
+        showToast();
+        form.reset(); 
+
+        // Zeichenzähler zurücksetzen
+        charCount.textContent = "0 / 200";
+        charCount.classList.remove('count-warn', 'count-error', 'count-ok');
       }
     });
+
+    //----- Toast -----
+    
+    function showToast(message = "Formular wurde erfolgreich gesendet!") {
+      const toastEl = document.getElementById('myToast');
+      const toastText = document.getElementById('toastText');
+      toastText.textContent = message;
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    }
 
     //----- Zeichenzähler -----
 
     document.addEventListener('DOMContentLoaded', function() {
-      const messageInput = document.getElementById('message');
-      const charCount = document.getElementById('charCount');
 
       messageInput.addEventListener('input', function() {
         const len = messageInput.value.length;
@@ -234,14 +268,6 @@
       });
     });
 
-    //----- Toast -----
-
-    function showToast() {
-      const toastEl = document.getElementById('myToast');
-      const toast = new bootstrap.Toast(toastEl);
-      toast.show();
-    }
-
     //----- Scrollbar -----
 
     const bar       = document.getElementById('progressBar');
@@ -258,13 +284,18 @@
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
       <li class="nav-item"><a href="index.html#home" class="nav-link px-2 text-body-secondary">Home</a></li>
       <li class="nav-item"><a href="bau.html#construction" class="nav-link px-2 text-body-secondary">Bau</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Technik</a></li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Kontakt</a></li>
     </ul>
-    <p class="text-center text-body-secondary">© 2024 Company, Inc</p>
+    <p class="text-center text-body-secondary">© 2025 Gruppe 4 - Frontend</p>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+  </script>
+  <script src="./databaseClient.js"></script>
+  <script>
+
+    
+  </script>
 </body>
 </html>
